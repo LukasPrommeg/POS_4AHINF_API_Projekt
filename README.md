@@ -8,678 +8,344 @@
 
 ### Rennserie
 <details>
- <summary><code>POST</code> <code><b>/addSeries</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
+ <summary><code>POST</code> <code><b>/addSeries</b></code> <code>(Fügt eine Serie hinzu)</code></summary>
 
-##### Parameters
+ ##### Parameters
 
-> | name      |  type     | data type               | description                                                           |
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-> | None      |  required | object (JSON or YAML)   | N/A  |
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | Serie          | Requestbody  | object (JSON or YAML)   | N/A  |
 
 
 ##### Responses
 
-> | http code     | content-type                      | response                                                            |
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `{"success":"true","message":"Success Message"}`                                              |
+
 
 </details>
 <details>
+ <summary><code>GET</code> <code><b>/getSeries</b></code> <code>(Gibt alle Serien zurück)</code></summary>
 
- <summary><code>GET</code> <code><b>/getSeries</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
+ ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | None          | -  | -   | N/A  |
 
-##### Parameters
-
-  
-
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `JSON Liste an Serien`                                              |
 
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
-
-  
 
 </details>
 <details>
-
- <summary><code>GET</code> <code><b>/{Name}</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>GET</code> <code><b>/{Name}</b></code> <code>(Gibt eine Serie zurück)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | {Name} der gewünschten Serie  |
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `JSON Objekt der Serie`                                              |
 
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
-
-  
 
 </details>
 <details>
-
- <summary><code>GET</code> <code><b>/getSeriesNames</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>GET</code> <code><b>/getSeriesNames</b></code> <code>(Gibt die Namen aller Serien zurück)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | None          | -  | -   | N/A  |
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `JSON String-Liste an Seriennamen`                                              |
 
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
-
-  
 
 </details>
 <details>
-
- <summary><code>DELETE</code> <code><b>/{Name}/delete</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>DELETE</code> <code><b>/{Name}/delete</b></code> <code>(Löscht eine Serie)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | {Name} der gewünschten Serie  |
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `{"success":"true","message":"Success Message"}`                                              |
+
+
+</details>
+<details>
+ <summary><code>GET</code> <code><b>/{Serie}/getStandings</b></code> <code>(Gibt den Gesamtstand einer Serie zurück)</code></summary>
+
+##### Parameters
+
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
+
+
+##### Responses
+
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `JSON Integer-Hashmap des aktuellen Gesamtstands`                                              |
+
   
+</details>
+<details>
+ <summary><code>GET</code> <code><b>/{Serie}/getPunkteSystem</b></code> <code>(Gibt das Punktesystem einer Serie zurück)</code></summary>
 
-> | http code     | content-type                      | response                                                            |
+##### Parameters
 
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
 
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
 
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
+##### Responses
 
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `JSON Integer-List des Punktesystems`                                              |
 
   
-
 </details>
 
 ### Rennen
 <details>
-
- <summary><code>POST</code> <code><b>/{Serie}/addResult</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>POST</code> <code><b>/{Serie}/addResult</b></code> <code>(Fügt ein Rennen zu einer Serie hinzu)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
+> | Rennen | Requestbody | object (JSON or YAML) | N/A |   
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `{"success":"true","message":"Success Message"}`                                              |
 
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
-
-  
 
 </details>
 <details>
 
- <summary><code>GET</code> <code><b>/{Serie}/getResults</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>GET</code> <code><b>/{Serie}/getResults</b></code> <code>(Gibt alle Rennen einer Serie zurück)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `JSON Liste an Rennen`                                              |
 
   
-
 </details>
 <details>
-
- <summary><code>GET</code> <code><b>/{Serie}/getResult/{id}</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>GET</code> <code><b>/{Serie}/getResult/{id}</b></code> <code>(Gibt ein Rennen einer Serie zurück)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
+> | String          | Path  | String   | {id} des gewünschten Rennens  |
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `JSON Objekt des gewünschten Rennens`                                              |
 
   
-
 </details>
 <details>
-
- <summary><code>PUT</code> <code><b>/{Serie}/updateResult</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>PUT</code> <code><b>/{Serie}/updateResult</b></code> <code>(Updatet ein Rennen einer Serie)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
+> | Rennen | Requestbody | object (JSON or YAML) | N/A |   
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `{"success":"true","message":"Success Message"}`                                              |
 
   
-
 </details>
 <details>
-
- <summary><code>POST</code> <code><b>/addSeries</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>DELETE</code> <code><b>/{Serie}/deleteResult/{id}</b></code> <code>(Löscht ein Rennen einer Serie)</code></summary>
 
 ##### Parameters
 
-  
-
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
+> | String          | Path  | String   | {id} des gewünschten Rennens  |
 
   
-  
-
 ##### Responses
 
-  
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `{"success":"true","message":"Success Message"}`                                              |
 
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
-
-  
-
-</details>
-<details>
-
- <summary><code>DELETE</code> <code><b>/{Serie}/deleteResult/{id}</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
-
-##### Parameters
-
-  
-
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
-
-##### Responses
-
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
-
-  
 
 </details>
 
 ### Drivers
 <details>
-
- <summary><code>POST</code> <code><b>/{Serie}/addDriver</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>POST</code> <code><b>/{Serie}/addDriver</b></code> <code>(Fügt einen Fahrer zu einer Serie hinzu)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
+> | Driver | Requestbody | object (JSON or YAML) | N/A |   
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `{"success":"true","message":"Success Message"}`                                              |
 
   
-
 </details>
 <details>
-
- <summary><code>GET</code> <code><b>/{Serie}/getDrivers</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>GET</code> <code><b>/{Serie}/getDrivers</b></code> <code>(Gibt alle Fahrer einer Serie zurück)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `JSON Liste an Fahrern`                                              |
 
   
-
+  
 </details>
 <details>
-
- <summary><code>GET</code> <code><b>/{Serie}/getDriver/{Nr}</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>GET</code> <code><b>/{Serie}/getDriver/{Nr}</b></code> <code>(Gibt einen Fahrer einer Serie zurück)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
+> | String          | Path  | String   | {id} des gewünschten Fahrers  |
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `JSON Objekt des gewünschten Fahrers`                                              |
 
   
-
 </details>
 <details>
-
- <summary><code>PUT</code> <code><b>/{Serie}/updateDriver</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>PUT</code> <code><b>/{Serie}/updateDriver</b></code> <code>(Updatet einen Fahrer einer Serie)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
+> | Driver | Requestbody | object (JSON or YAML) | N/A |   
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `{"success":"true","message":"Success Message"}`                                              |
 
   
-
 </details>
 <details>
-
- <summary><code>DELETE</code> <code><b>/{Serie}/deleteDriver/{Nr}</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>DELETE</code> <code><b>/{Serie}/deleteDriver/{Nr}</b></code> <code>(Löscht einen Fahrer einer Serie)</code></summary>
 
 ##### Parameters
 
-  
-
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | String          | Path  | String   | Name der gewünschten {Serie}  |
+> | String          | Path  | String   | {id} des gewünschten Fahrers  |
 
   
-  
-
 ##### Responses
 
-  
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `{"success":"true","message":"Success Message"}`                                              |
 
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
-
-  
 
 </details>
 
-
+### Verwaltung 
 <details>
-
- <summary><code>GET</code> <code><b>/{Serie}/getStandings</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
+ <summary><code>GET</code> <code><b>/state</b></code> <code>(Gibt den Status der API zurück)</code></summary>
 
 ##### Parameters
 
-  
+> | data type      | type         | format                  | description                                                   |
+> |----------------|--------------|-------------------------|---------------------------------------------------------------|
+> | None          | -  | -   | N/A  |
 
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
 
 ##### Responses
 
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
+> |content-type             | response example / description                                                                |
+> |-------------------------|-----------------------------------------------------------------------------------------------|
+> |`json string`       | `{"success":"true","message":"Das Service ist verfügbar!"}`  |
 
   
-
-</details>
-<details>
-
- <summary><code>GET</code> <code><b>/{Serie}/getPunkteSystem</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
-
-##### Parameters
-
-  
-
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
-
-##### Responses
-
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
-
-  
-
-</details>
-
-<details>
-
- <summary><code>GET</code> <code><b>/state</b></code> <code>(overwrites all in-memory stub and/or proxy-config)</code></summary>
-
-  
-
-##### Parameters
-
-  
-
-> | name      |  type     | data type               | description                                                           |
-
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-
-> | None      |  required | object (JSON or YAML)   | N/A  |
-
-  
-  
-
-##### Responses
-
-  
-
-> | http code     | content-type                      | response                                                            |
-
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-
-> | `201`         | `text/plain;charset=UTF-8`        | `Configuration created successfully`                                |
-
-> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
-
-> | `405`         | `text/html;charset=utf-8`         | None                                                                |
-
-  
-
 </details>
 
 
