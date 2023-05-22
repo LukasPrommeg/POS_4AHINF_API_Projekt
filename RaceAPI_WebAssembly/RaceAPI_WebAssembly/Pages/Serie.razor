@@ -1,0 +1,132 @@
+﻿@page "/Serie/{Name}"
+
+@using RaceAPI_WebAssembly.Data
+@using Newtonsoft.Json
+@inject ConnectionData connectionData
+
+<PageTitle>@Name</PageTitle>
+
+<h3>@Name Fahrerwertung</h3>
+<table class="table" id="standings">
+    <thead>
+        <tr>
+        <th class="platz" >Platz</th>
+            <th>Fahrer</th>
+            <th>Team</th>
+            <th class="punkte">Gesamtpunkte</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int platz = 1;
+            foreach (var item in serie.gesamtWertung.OrderByDescending(key => key.Value))
+            {
+                List<DriverData> matches = serie.fahrerfeld.Where(p => p.number == item.Key).ToList();
+
+                <tr>
+                    <td class="platz">@platz.</td>
+                    @if (matches.Count == 1)
+                    {
+                        <td>@item.Key - @matches[0].name</td>
+                        <td>@matches[0].team</td>
+                    }
+                    else
+                    {
+                        <td>@item.Key</td>
+                        <td>-</td>
+                    }
+                    <td class="punkte">@item.Value</td>
+                </tr>
+                platz++;
+            }
+        }
+    </tbody>
+</table>
+
+<br />
+<h4>Rennergebnisse</h4>
+
+@{
+    foreach(RennenData rennen in serie.rennenList)
+    {
+        rennen.serie = serie.name;
+        string href = "Rennen/" + @Name + "/" + @rennen.id;
+        <div class="results my-3">
+            <div>@rennen.name</div>
+            <div class="details">
+                <NavLink class="nav-link" href="@href" Match="NavLinkMatch.All">Details</NavLink>
+            </div>
+        </div>
+    }
+}
+<br />
+<h4>Punkteverteilung</h4>
+
+<div id="punkteSystemContainer">
+    <table class="table" id="punkteSystem">
+        <thead>
+            <tr>
+                <th style="width:50%;">Platz</th>
+                <th style="width:50%;">Punkte</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                platz = 1;
+                foreach (var item in serie.punkteSystem)
+                {
+                    <tr>
+                        <td style="width:50%;">@platz.</td>
+                        <td style="width:50%;">@item</td>
+                    </tr>
+                    platz++;
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public string Name
+    {
+        get { return _name; }
+        set
+        {
+            _name = value;
+            getFromAPI(connectionData.url + "/" + Name);
+        }
+    }
+
+    private SerieData serie = new SerieData("LOADING", new List<RennenData>(), new List<int>(), new List<DriverData>(), new Dictionary<int, int>());
+    private string _name;
+
+
+    public Serie()
+    {
+        _name = "AAAAAAAA";
+    }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+    private async Task /*void*/ getFromAPI(string url)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync(url);
+            serie = JsonConvert.DeserializeObject<SerieData>(json);
+            if(serie == null)
+            {
+                throw new ArgumentNullException();
+            }
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine("Exception while converting JsonObject");
+        }
+    }
+}

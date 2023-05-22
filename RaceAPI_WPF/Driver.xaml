@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="RaceAPI.Driver"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RaceAPI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel VerticalAlignment="Center" >
+        <Grid Margin="20" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock x:Name="title" HorizontalAlignment="Center" Foreground="White" Margin="0,10" FontSize="20">Fahrer</TextBlock>
+                <TextBlock x:Name="nummer" HorizontalAlignment="Center" Foreground="White" Margin="0,10">187</TextBlock>
+                <TextBlock x:Name="name" HorizontalAlignment="Center" Foreground="White" Margin="0,10">187</TextBlock>
+                <TextBlock x:Name="team" HorizontalAlignment="Center" Foreground="White" Margin="0,10">187</TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <TextBlock HorizontalAlignment="Center" Foreground="White" Margin="0,10" FontSize="20">Recent Results:</TextBlock>
+                <ListBox x:Name="recentResults" Background="#363636" BorderBrush="Black" Focusable="False" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True">
+                                <TextBlock Text="{Binding Path=Key}" HorizontalAlignment="Left" Foreground="White"/>
+                                <TextBlock Text="{Binding Path=Value}" HorizontalAlignment="Stretch" TextAlignment="Right" Foreground="White"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </StackPanel>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" MaxWidth="100" Margin="20" Click="backToSeries">Back</Button>
+            <Button Grid.Column="1" MaxWidth="100" Margin="20" Click="editDriver">Edit</Button>
+            <Button Grid.Column="2" MaxWidth="100" Margin="20" Click="deleteDriver">Delete</Button>
+        </Grid>
+    </StackPanel>
+</UserControl>

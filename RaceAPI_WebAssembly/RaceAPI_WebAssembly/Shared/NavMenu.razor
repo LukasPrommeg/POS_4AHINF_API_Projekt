@@ -1,0 +1,94 @@
+﻿@using RaceAPI_WebAssembly.Data
+@inject ConnectionData connectionData
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">@connectionStatus</a> 
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        @foreach (KeyValuePair<string, string> item in links)
+        {
+            <NavbarItem Name=@item.Key href=@item.Value></NavbarItem>
+        }
+    </nav>
+</div>
+
+@code {
+    private string connectionStatus = "Not Connected";
+
+    private Dictionary<string, string> links = new Dictionary<string, string>();
+
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        addPage("Home", "");
+
+        connectionData.urlChanged += handleURLChange;
+
+        connectionStatus = "No Address!";
+    }
+
+    public void addPage(string name, string href)
+    {
+        links.Add(name, href);
+    }
+
+    private void handleURLChange(object sender, EventArgs e)
+    {
+        connectToAPI();
+    }
+
+    private async Task connectToAPI()
+    {
+        try
+        {
+            links.Clear();
+            addPage("Home", "");
+
+            connectionStatus = "Connecting!";
+            StateHasChanged();
+
+            HttpClient client = new HttpClient();
+
+            string result = await client.GetStringAsync(connectionData.url + "/getSeriesNames");
+            result = result.Replace("[", "");
+            result = result.Replace("]", "");
+            result = result.Replace("\"", "");
+            string[] names = result.Split(",");
+
+            foreach(string serie in names)
+            {
+                if(serie != "")
+                {
+                    addPage(serie, "Serie/" + serie);
+                }
+            }
+
+            connectionStatus = connectionData.url.Split("//")[1];
+            connectionData.finishedConnecting();
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            connectionStatus = "Connection failed!";
+            Console.WriteLine(e.Message);
+            connectionData.finishedConnecting();
+            StateHasChanged();
+        }
+    }
+}

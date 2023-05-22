@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\RaceAPI_WebAssembly.props" />
+</Project>

@@ -1,0 +1,63 @@
+﻿@page "/"
+@using RaceAPI_WebAssembly.Data
+@inject ConnectionData connectionData
+
+<PageTitle>Hauptmenü</PageTitle>
+
+<h1>RaceAPI</h1>
+
+<p>Willkommen bei der RaceAPI</p>
+
+<br />
+
+<p>Geben Sie die Adresse der gewünschten API-Instanz ein: </p>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+		<span class="input-group-text" id="basic-addon3">http://[Adresse]:6969</span>
+  </div>
+	<input @bind="@url" disabled="@connecting" class="form-control" />
+</div>
+<div style="display:flex; justify-content:center;">
+	<button @onclick=connect disabled="@connecting" class="btn btn-light">Verbinden!</button>
+</div>
+
+
+@code {
+	private string url = "";
+
+	private bool connecting = false;
+
+	protected override void OnInitialized()
+	{
+		connectionData.connectingFinished += finishedConnecting;
+		base.OnInitialized();
+	}
+
+	public void connect()
+	{
+		//http://192.168.188.103:6969
+
+		connecting = true;
+		StateHasChanged();
+
+		Uri uriResult;
+		bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult)
+			&& (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
+		if(result)
+		{
+			connectionData.url = url;
+		}
+		else
+		{
+			connecting = false;
+			StateHasChanged();
+		}
+
+	}
+	private void finishedConnecting(object sender, EventArgs e)
+	{
+		connecting = false;
+		StateHasChanged();
+	}
+}

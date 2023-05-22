@@ -1,0 +1,103 @@
+﻿@using Newtonsoft.Json;
+
+@page "/Rennen/{Serie}/{Name}"
+@inject ConnectionData connectionData
+
+
+<h3>@Serie - @rennen.name</h3>
+<p>Austragungsort: @rennen.ort</p>
+
+<table class="table" id="standings">
+    <thead>
+        <tr>
+            <th class="platz">Platz</th>
+            <th>Fahrer</th>
+            <th>Team</th>
+            <th class="punkte">Punkte</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int platz = 1;
+            foreach (var item in rennen.ergebnis)
+            {
+                List<DriverData> matches = drivers.Where(p => p.number == item).ToList();
+
+                <tr>
+                    <td class="platz">@platz.</td>
+                    @if (matches.Count == 1)
+                    {
+                        <td>@item - @matches[0].name</td>
+                        <td>@matches[0].team</td>
+                    }
+                    else
+                    {
+                        <td>@item</td>
+                        <td>-</td>
+                    }
+                    @if (punkteSystem.Count >= platz)
+                    {
+                        <td class="punkte">@punkteSystem[platz-1]</td>
+                    }
+                    else
+                    {
+                        <td class="punkte">0</td>
+                    }
+                </tr>
+                platz++;
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public string Name
+    {
+        get { return _name; }
+        set
+        {
+            _name = value;
+            getFromAPI(connectionData.url + "/" + Serie);
+        }
+    }
+    [Parameter]
+    public string Serie
+    {
+        get { return _serie; }
+        set { _serie = value; }
+    }
+
+    private string _serie;
+    private string _name;
+
+    private List<int> punkteSystem = new List<int>();
+    private RennenData rennen = new RennenData("", "", "", new List<int>());
+    private List<DriverData> drivers = new List<DriverData>();
+
+
+    private async Task getFromAPI(string url)
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            string jsonRennen = await client.GetStringAsync(url + "/getResult/" + Name);
+            rennen = JsonConvert.DeserializeObject<RennenData>(jsonRennen);
+            string jsonDrivers = await client.GetStringAsync(url + "/getDrivers");
+            drivers = JsonConvert.DeserializeObject<List<DriverData>>(jsonDrivers);
+            string jsonPunkte = await client.GetStringAsync(url + "/getPunkteSystem");
+            punkteSystem = JsonConvert.DeserializeObject<List<int>>(jsonPunkte);
+
+            if (rennen == null || drivers == null || punkteSystem == null)
+            {
+                throw new ArgumentNullException();
+            }
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine("Exception while converting JsonObject");
+        }
+    }
+}

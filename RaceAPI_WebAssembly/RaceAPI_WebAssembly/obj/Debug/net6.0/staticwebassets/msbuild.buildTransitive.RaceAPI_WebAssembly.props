@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\RaceAPI_WebAssembly.props" />
+</Project>
