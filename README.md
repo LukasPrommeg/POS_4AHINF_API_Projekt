@@ -1,7 +1,24 @@
+## Beschreibung der Software
+
+#### RaceAPI
+Die RaceAPI ist das Kernstück des Projektes. Die API ist in Java programmiert und basiert auf dem Spring Boot Framework. Sie verwaltet alle Daten und speichert diese in eine MongoDB-Datenbank. 
+
+#### Website mit Blazor Webassembly
+Die Website dient als einfache Weboberfläche, mit welcher sich einfache Benutzer und Fans des Rennsports die gespeicherten Daten der RaceAPI einfach und schön gestaltet anschauen können. Für die Implementierung dieser Website habe ich mich für das Webframework Blazor entschieden, welches auf ASP.NET aufbaut. 
+
+#### WPF Anwendung
+Die WPF Anwendung dient als Verwaltungsprogramm der RaceAPI. Über die WPF Anwendung können alle Daten einfach hinzugefügt, geändert, gelöscht oder auch nur angezeigt werden. 
+
+
 ## Softwaredesign
 
-
-## Beschreibung der Software
+```mermaid
+graph LR
+A(Blazor Webapp) -- Displays Data --> C
+B(WPF App) -- Displays and changes Data --> C
+C(Spring API) -- stores Data and gets --> D
+D(MongoDB)
+```
 
 
 ## API Beschreibung
@@ -10,7 +27,7 @@
 <details>
  <summary><code>POST</code> <code><b>/addSeries</b></code> <code>(Fügt eine Serie hinzu)</code></summary>
 
- ##### Parameters
+##### Parameters
 
 > | data type      | type         | format                  | description                                                   |
 > |----------------|--------------|-------------------------|---------------------------------------------------------------|
@@ -28,7 +45,7 @@
 <details>
  <summary><code>GET</code> <code><b>/getSeries</b></code> <code>(Gibt alle Serien zurück)</code></summary>
 
- ##### Parameters
+##### Parameters
 
 > | data type      | type         | format                  | description                                                   |
 > |----------------|--------------|-------------------------|---------------------------------------------------------------|
@@ -356,7 +373,7 @@
 
 
 ## Diskussion
-
+ 
 
 ## Quellen
 
