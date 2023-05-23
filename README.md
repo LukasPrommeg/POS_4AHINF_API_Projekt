@@ -7,7 +7,6 @@ Meine Idee war eine API, mit welcher man Ergebnisse und Punktestände von Autore
 - [Softwaredesign](#softwaredesign)
 - [Beschreibung der Software](#beschreibung-der-software)
 - [API Beschreibung](#api-beschreibung)
-- [Verwendung der API](#verwendung-der-api)
 - [Diagramme](#diagramme)
 - [Diskussion](#diskussion)
 
@@ -35,7 +34,7 @@ Die WPF Anwendung dient als Verwaltungsprogramm der RaceresultAPI. Über die WPF
 ## Beschreibung der Software
 
 #### RaceresultAPI
-Wie unter dem Punkt [Software Design](#softwar-design) schon kurz angeschrochen wurde das Herz des Projekts, die API, mit Spring Boot umgesetzt. Dafür habe ich folgende Dependencies verwendet: 
+Wie unter dem Punkt [Software Design](#software-design) schon kurz angeschrochen wurde das Herz des Projekts, die API, mit Spring Boot umgesetzt. Dafür habe ich folgende Dependencies verwendet: 
 
 ```xml 
 <dependencies>
@@ -67,7 +66,10 @@ public String getState() {
 Unter dem Punkt [API Beschreibung](#api-beschreibung) ist die Funktion und Verwendung der einzelnen Endpoints genauer beschrieben. 
 
 #### Website mit Blazor Webassembly
-Die Website basiert auf dem ASP.NET Blazor Webframework. Die wichtigsten Teile des Codes sind dabei die Zugriffe auf die API. Im folgenden Abschnitt ist ein GET-Request an die API implementiert. Außerdem beinhaltet der Codeausschnitt auch die Konvertierung des übergebenen JSON-Objektes zu einem C# Objekt. Für diese Konvertierung werden Methoden des Newtonsoft Json.NET Nugets verwendet.
+Die Website basiert auf dem ASP.NET Blazor Webframework. Die wichtigsten Teile des Codes sind dabei die Zugriffe auf die API. 
+
+##### GET-Request
+Im folgenden Abschnitt ist ein GET-Request an die API implementiert. Außerdem beinhaltet der Codeausschnitt auch die Konvertierung des übergebenen JSON-Objektes zu einem C# Objekt. Für diese Konvertierung werden Methoden des Newtonsoft Json.NET Nugets verwendet.
 ```c#
 try
 {
@@ -93,6 +95,8 @@ StateHasChanged();
 
 Diese Funktion ist Teil des Blazor Frameworks und ermöglicht es, die HTML Ansicht neu zu laden, ohne dass der C# Code von neu ausgeführt wird.
 
+
+##### Ändern der API-URL
 Ein weiterer wichtiger Teil des Codes ist die Klasse <code>ConnectionData.cs</code>. Diese Klasse speichert die Verbindungsdaten der gewünschten RaceresultAPI Instanz. Außerdem löst diese Klasse ein Event aus, sobald sich die Verbindungsdaten geändert haben, damit die restliche Anwendung auf diese Veränderung reagieren kann. Die Implementierung der Klasse ist im folgenden Codeausschnitt zu sehen.
 ``` c#
 public class ConnectionData
@@ -122,8 +126,43 @@ public class ConnectionData
 }
 ```
 
-#### WPF Anwendung
+Beim Starten der Anwendung wird eine Instanz dieser Klasse als Singleton erstellt, damit jede Komponente auf die gleichen Daten zugreift. Dies kann man mit dem folgendem Funktionsaufruf im <code>Program.cs</code> Skript erreichen.
+```c#
+builder.Services.AddSingleton<ConnectionData>();
+```
 
+#### WPF Anwendung
+Da die WPF Anwendung, gleich wie die Blazor WebApp, in C# implementiert wurde ist der Code, welcher für die Interaktion mit der RaceresultAPI zuständig ist, sehr ähnlich zu dem der Blazor WebApp. Lediglich die Codeteile, welche die Darstellung der Daten vornehmen unterscheidet sich. 
+
+##### POST-Request 
+Im nachfolgendem Codeabschnitt ist die Implementierung eines POST-Requests dargestellt.
+```c#
+ JObject json = new JObject
+{
+	{ "name", addName },
+	{ "punkteSystem", punkteSys }
+};
+
+HttpContent content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
+
+Task<string> response = new HttpClient().PostAsync(apiURL + "/addSeries", content).Result.Content.ReadAsStringAsync();
+```
+In diesem Fall wird der Endpoint <code>/addSeries</code> verwendet, um eine neue Rennserie hinzuzufügen.
+
+##### PUT-Request
+Im nachfolgendem Codeabschnitt ist die Implementierung eines PUT-Requests dargestellt.
+```c#
+Task<string> response = new HttpClient().PutAsync(url + "/" + name + "/updateDriver", content).Result.Content.ReadAsStringAsync();
+```
+In diesem Fall wird der Endpoint <code>/{Serie}/updateDriver</code> verwendet, um die Daten eines Fahrers zu ändern.
+
+##### DELETE-Request
+Im nachfolgendem Codeabschnitt ist die Implementierung eines DELETE-Requests dargestellt.
+```c#
+Task<string> response = new HttpClient().DeleteAsync(apiURL + "/" + selectSeries.Text + "/delete").Result.Content.ReadAsStringAsync();
+
+```
+In diesem Fall wird der Endpoint <code>/{Name}/delete</code> verwendet, um eine Rennserie zu löschen.
 
 ## API Beschreibung
 
@@ -588,8 +627,45 @@ public class ConnectionData
 
 </details>
 
-## Verwendung der API
-
 ## Diagramme
+Das folgende UML-Klassendiagramm zeigt die Beziehungen und Eigenschaften der Datentypen, mit welchen die RaceresultAPI arbeitet.
+```mermaid
+classDiagram
+
+Serie "1" *-- "**" Rennen : has
+Serie "1" *-- "*" Driver: has
+
+class  Serie{
+	+id : String
+	+name : String
+	+rennenList : List<Rennen>
+	+punkteSystem : List<Integer>
+	+fahrerfeld : List<Driver>
+	+gesamtWertung : HashMap<Integer, Integer>
+}
+
+class  Rennen{
+	+id : String
+	+name : String
+	+ort : String
+	+ergebnis : List<Integer>
+}
+
+class  Driver{
+	+number : int
+	+name : String
+	+team : String
+}
+```
 
 ## Diskussion
+Der Endstand des Projektes kann in 3 einzelne Programme aufgeteilt werden, welche gemeinsam ein komplettes System darstellen. Die RaceresultAPI ist eine einfache REST-API, welche Daten über und um Rennserien verwaltet und speichert. Die Speicherung erfolgt dabei mit einer MongoDB Datenbank. Die WPF Anwendung dient als Verwaltungssoftware und ermöglicht es Daten einfach und übersichtlich an die RaceresultAPI zu schicken oder bearbeiten. Das Ziel der WebApp hingegen ist es die Daten der RaceresultAPI schön darzustellen und sollte hauptsächlich als Informationsquelle für interessierte Fans fungieren.
+
+Die Erarbeitung dieses Projektes verlief im großen betrachtet sehr gut. Die Implementierung der REST-API in Spring war dabei der einfachste Teil, da ich mit damit vor dem Projekt schon am meisten Erfahrung hatte. Die Arbeit um die WPF Anwendung war hingegen etwas schwerer, da ich mit WPF bis zu diesem Projekt nur wenig Erfahrung beziehungsweise Berührungspunkte hatte. Durch Recherche im Internet waren allerdings alle Probleme relativ leicht zu lösen. Blazor hingegen war für mich komplettes Neuland und somit auch Anfangs sehr undurchsichtig und verwirrend. Auch hier fand ich allerdings eine Lösung für alle meine Probleme im Internet. Nach dem erarbeiten des Projektes kann ich Blazor allerdings nur jedem empfehlen, da es mit diesem Framework sehr einfach und schnell möglich ist funktionale und optisch ansprechende Websiten zu erstellen. Ein netter Bonuspunkt ist dabei die komplette Meidung von JavaScript. In meinem Fall ist C# viel öfters arbeite und dadurch auch schneller arbeiten kann als in JavaScript
+
+### Mögliche Erweiterungen
+#### Erweiterung der Fahrerteams
+Eine mögliche Erweiterung wäre die Implementierung der Fahrerteams. Zum jetzigen Stand sind die Teams nur als String im Fahrer abgebildet und haben eigentlich keine weitere Funktion. Hier wäre es noch möglich eine Teamwertung, wie es auch aus zahlreichen Autorennserien bekannt sein sollte, zu implementieren.
+
+#### Darstellung
+Die Darstellung auf der WebApp könnte mithilfe von Bildern oder Icons noch verschönert und ansprechender gemacht werden. So könnte man bei den einzelnen Fahrern ein Portrait anzeigen und somit eine engere Verbindung mit den wirklichen Personen 
