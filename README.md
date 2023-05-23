@@ -64,10 +64,63 @@ public String getState() {
 }
 ```
 
-Unter dem Punkt [API Beschreibung](#api-beschreibung) ist die Funktion und Verwendung der einzelnen Endpoints genauer beschrieben.
+Unter dem Punkt [API Beschreibung](#api-beschreibung) ist die Funktion und Verwendung der einzelnen Endpoints genauer beschrieben. 
 
 #### Website mit Blazor Webassembly
+Die Website basiert auf dem ASP.NET Blazor Webframework. Die wichtigsten Teile des Codes sind dabei die Zugriffe auf die API. Im folgenden Abschnitt ist ein GET-Request an die API implementiert. Außerdem beinhaltet der Codeausschnitt auch die Konvertierung des übergebenen JSON-Objektes zu einem C# Objekt. Für diese Konvertierung werden Methoden des Newtonsoft Json.NET Nugets verwendet.
+```c#
+try
+{
+	HttpClient client = new HttpClient();
+	string json = await client.GetStringAsync(url);
+	serie = JsonConvert.DeserializeObject<SerieData>(json);
+	if(serie == null)
+	{
+		throw new ArgumentNullException();
+	}
+    StateHasChanged();
+}
+catch (Exception ex)
+{
+	Console.WriteLine(ex.Message);
+}
+```
 
+Einen besonderen Augenmerk möchte ich dabei auf folgenden Funktionsaufruf legen:
+```c# 
+StateHasChanged();
+``` 
+
+Diese Funktion ist Teil des Blazor Frameworks und ermöglicht es, die HTML Ansicht neu zu laden, ohne dass der C# Code von neu ausgeführt wird.
+
+Ein weiterer wichtiger Teil des Codes ist die Klasse <code>ConnectionData.cs</code>. Diese Klasse speichert die Verbindungsdaten der gewünschten RaceresultAPI Instanz. Außerdem löst diese Klasse ein Event aus, sobald sich die Verbindungsdaten geändert haben, damit die restliche Anwendung auf diese Veränderung reagieren kann. Die Implementierung der Klasse ist im folgenden Codeausschnitt zu sehen.
+``` c#
+public class ConnectionData
+    {
+    private string apiURL;
+	public string url
+	{
+		get { return apiURL; }
+		set
+		{
+			apiURL = value;
+			raiseURLChangedEvent();
+		}
+	}
+
+	public event EventHandler urlChanged;
+	public event EventHandler connectingFinished;
+
+	private void raiseURLChangedEvent()
+	{
+		urlChanged?.Invoke(this, null);
+	}
+	public void finishedConnecting()
+	{
+		connectingFinished?.Invoke(this, null);
+	}
+}
+```
 
 #### WPF Anwendung
 
@@ -426,10 +479,10 @@ Unter dem Punkt [API Beschreibung](#api-beschreibung) ist die Funktion und Verwe
 > |----------------|--------------|-----------------------|--------------|
 > | String          | id  | uniqe, auto generated   | no  |
 > | String          | name  | N/A   | yes  |
-> | List< Rennen >          | rennenList  | N/A   | no  |
-> | List< Integer >          | punkteSystem  | N/A   | yes  |
-> | List< Driver >          | fahrerfeld  | N/A   | no  |
-> | Hashmap< Integer, Integer >          | gesamtWertung  | N/A   | no  |
+> | List (Rennen)          | rennenList  | N/A   | no  |
+> | List (Integer)          | punkteSystem  | N/A   | yes  |
+> | List (Driver)          | fahrerfeld  | N/A   | no  |
+> | Hashmap (Integer, Integer)          | gesamtWertung  | N/A   | no  |
 
 ##### Example JSON POST
 ``` json
@@ -462,7 +515,7 @@ Unter dem Punkt [API Beschreibung](#api-beschreibung) ist die Funktion und Verwe
 > | String          | id  | uniqe, auto generated   | yes  |
 > | String          | name  | N/A   | yes  |
 > | String          | ort  | N/A   | yes  |
-> | List< Integer >          | ergebnis  | N/A   | yes  |
+> | List (Integer)          | ergebnis  | N/A   | yes  |
 
 ##### Example JSON POST
 ```json
