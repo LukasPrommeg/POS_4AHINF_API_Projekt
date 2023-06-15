@@ -39,7 +39,7 @@
         <TextBox Grid.Column="1" Grid.Row="4" Name="serverURL"  MaxHeight="50" MaxWidth="400" TextChanged="serverURL_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
         <Button Grid.Column="1" Grid.Row="5"  Name="refresh" Content="Refresh" MaxHeight="50" MaxWidth="200" Click="refreshURL"></Button>
 
-        <Grid x:Name="popup" Grid.Row="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="10" Visibility="Hidden">
+        <Grid x:Name="popup" Grid.Row="2" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
