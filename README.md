@@ -632,8 +632,8 @@ Das folgende UML-Klassendiagramm zeigt die Beziehungen und Eigenschaften der Dat
 ```mermaid
 classDiagram
 
-Serie "1" *-- "**" Rennen : has
-Serie "1" *-- "*" Driver: has
+Serie "1" o-- "**" Rennen : has
+Serie "1" o-- "*" Driver: has
 
 class  Serie{
 	+id : String
